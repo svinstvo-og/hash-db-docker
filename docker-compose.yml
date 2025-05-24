@@ -1,21 +1,18 @@
-#verison: "3.8"
-
+version: '3.8'
 services:
   postgres:
-    image: postgres:15
-    volumes:
-      - ./hash-db-docker//initdb.d:/docker-entrypoint-initdb.d
-      - pg_data:/var/lib/postgresql/data
+    image: postgres:16-alpine
+    container_name: hash-postgres
+    restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: zxca
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 5s
-      timeout: 2s
-      retries: 5
+      POSTGRES_DB: postgres  # default DB that will be created
     ports:
       - "5430:5430"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d  # custom SQL init script
 
 volumes:
-  pg_data:
+  postgres-data:
