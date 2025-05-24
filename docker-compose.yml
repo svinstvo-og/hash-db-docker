@@ -1,0 +1,21 @@
+#verison: "3.8"
+
+services:
+  postgres:
+    image: postgres:15
+    volumes:
+      - ./hash-db-docker//initdb.d:/docker-entrypoint-initdb.d
+      - pg_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: zxca
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 2s
+      retries: 5
+    ports:
+      - "5430:5430"
+
+volumes:
+  pg_data:
