@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: zxca
       POSTGRES_DB: postgres  # default DB that will be created
     ports:
-      - "5430:5430"
+      - "5430:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - ./init:/docker-entrypoint-initdb.d  # custom SQL init script
